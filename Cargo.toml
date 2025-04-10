@@ -1,0 +1,27 @@
+[package]
+name = "esp32-iot-monitor"
+version = "0.1.0"
+edition = "2021"
+
+# Указываем целевую платформу для ESP32
+[dependencies]
+esp-idf-sys = {
+    version = "0.35.0",
+    features = [
+        "esp32",          # Целевая плата
+        "wifi",           # Поддержка Wi-Fi
+        "bluetooth",      # Поддержка Bluetooth
+        "esp-ota",        # OTA-обновления
+        "embassy",        # Асинхронная среда Embassy
+        "interrupt",      # Обработка прерываний
+        "log",            # Логирование
+    ]
+}
+
+esp-idf-hal = "0.35.0"   # HAL для работы с железом
+esp-wifi = "0.6.0"       # Управление Wi-Fi
+embedded-svc = "0.8.0"   # Сервисы для embedded-систем (HTTP, MQTT)
+serde = { version = "1.0", features = ["derive"] } # Для сериализации данных
+serde_json = "1.0"       # Работа с JSON
+embassy-executor = "0.8.0" # Асинхронный executor
+embassy-sync = "0.8.0"   # Синхронизация для Embassy
