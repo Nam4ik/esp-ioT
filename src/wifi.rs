@@ -42,7 +42,7 @@ use core::fmt::Write;
 fn init_adc() -> Adc<'static, ADC> {
     let peripherals = unsafe { Peripherals::steal() };
     let adc = Adc::new(peripherals.adc1, &ADC::CONFIG_DEFAULT);
-    adc.set_attenuation(Attenuation::Attenuation11dB); // Расширяет диапазон до 0-3.3В [[6]]
+    adc.set_attenuation(Attenuation::Attenuation11dB); 
     adc
 }
 
@@ -60,7 +60,7 @@ extern "C" fn gpio_isr_handler(arg: *mut ()) {
 
 fn init_interrupts() {
     unsafe {
-        gpio_install_isr_service(0).unwrap(); // Инициализация сервиса [[8]]
+        gpio_install_isr_service(0).unwrap(); 
         gpio_isr_handler_add(GPIO_NUM_4, gpio_isr_handler, core::ptr::null_mut());
     }
 }
@@ -69,7 +69,7 @@ fn connect() -> ! {
     // Инициализация
     let peripherals = Peripherals::take().unwrap();
     let mut adc = init_adc();
-    let mut sensor_pin = Pin::new(peripherals.pins.gpio34); // Пример GPIO для ADC [[6]]
+    let mut sensor_pin = Pin::new(peripherals.pins.gpio34); 
     init_wifi().unwrap();
     init_interrupts();
 
