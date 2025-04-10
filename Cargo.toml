@@ -5,9 +5,7 @@ edition = "2021"
 
 # Указываем целевую платформу для ESP32
 [dependencies]
-esp-idf-sys = {
-    version = "0.35.0",
-    features = [
+esp-idf-sys = { version = "0.35.0", features = [
         "esp32",          # Целевая плата
         "wifi",           # Поддержка Wi-Fi
         "bluetooth",      # Поддержка Bluetooth
@@ -15,8 +13,7 @@ esp-idf-sys = {
         "embassy",        # Асинхронная среда Embassy
         "interrupt",      # Обработка прерываний
         "log",            # Логирование
-    ]
-}
+    ]}
 
 esp-idf-hal = "0.35.0"   # HAL для работы с железом
 esp-wifi = "0.6.0"       # Управление Wi-Fi
