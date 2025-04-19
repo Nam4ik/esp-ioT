@@ -10,7 +10,7 @@
       "cppStandard": "${default}",
       "intelliSenseMode": "linux-gcc-x64",
       "compilerArgs": [
-        ""
+        "-Werror -Wall -o3"
       ]
     }
   ],
