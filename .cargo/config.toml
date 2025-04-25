@@ -1,0 +1,33 @@
+[target.xtensa-esp32-none-elf]
+runner = "espflash --monitor"
+rustflags = [
+    "-C", "linker-plugin-lto=yes",
+    "-C", "link-arg=-nostartfiles",
+    "-C", "link-arg=-Wl,--gc-sections",
+]
+
+#[build]
+#target = "xtensa-esp32-none-elf.json"  # Используйте кастомный файл спецификации
+
+#[target.xtensa-esp32-none-elf.json]
+#runner = "espflash --monitor"
+#rustflags = [
+#    "-C", "link-arg=-Tesp32/rom.ld",
+#    "-C", "link-arg=-Tesp32/sections.ld",
+#    "-C", "link-arg=-Tesp32/esp32.ld",
+#    "-C", "linker-plugin-lto",
+#]
+
+[build]
+target = "xtensa-esp32-none-elf"
+rustflags = []
+#rustc = "rustc +nightly"
+
+#[patch.crates-io]
+#esp-wifi-sys = { git = "https://github.com/esp-rs/esp-wifi", branch = "main" }
+#esp-wifi-sys = { path = "/home/namilskyy/esp-wifi/" }
+
+[env]
+ESP_IDF_PATH = { value = "/opt/esp-idf", relative = false }
+IDF_PATH = { value = "/opt/esp-idf", relative = false }
+
