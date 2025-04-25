@@ -1,3 +1,5 @@
+//CUSTOM TARGET IF EXECUTABLE CANT BE LINKED WITH MAIN TARGET
+
 {
     "arch": "xtensa",
     "cpu": "esp32",
