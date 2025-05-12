@@ -3,9 +3,16 @@
 #![no_main]
 #![no_std]
 #![feature(panic_info_message)]
+/*
+#![feature(lang_items)]
 
+#[lang = "sized"]
+pub trait Sized {}
+#[lang = "copy"]
+pub trait Copy {}
+*/
 
-use core::panic::PanicInfo;
+use core::{panic::PanicInfo, marker::Sized, result::Result};
 use esp_idf_hal::{
     gpio::{AnyIOPin, Pin, InterruptType, Pull},
     adc::{Adc, Attenuation, AdcChannelDriver, ADC1},
@@ -75,6 +82,7 @@ unsafe fn critical_section_impl(cs: critical_section::RawRestoreState) -> critic
     prev as u32
 }
 */ 
+impl WebServer {
 
 fn init_nvs() -> EspNvs<Nvs> {
     EspNvs::new_default().unwrap()
@@ -144,8 +152,10 @@ fn start_webserver() -> anyhow::Result<EspHttpServer> {
 
     Ok(server)
 }
+}
 
-fn init_wifi(wifi_modem: WiFiModem, config: Option<WifiConfig>) -> Result<EspWifi<'static>, esp_wifi::Error> {
+impl Wifi {
+pub fn init_wifi(wifi_modem: WiFiModem, config: Option<WifiConfig>) -> Result<EspWifi<'static>, esp_wifi::Error> {
     let mut wifi = EspWifi::new(wifi_modem, None, None)?;
     
     if let Some(config) = config {
@@ -183,6 +193,14 @@ fn init_wifi(wifi_modem: WiFiModem, config: Option<WifiConfig>) -> Result<EspWif
     Ok(wifi)
 }
 
+pub fn wifi_status -> bool {
+    if(wifi.is_connected) {
+        return true;
+    }else {
+        return false;
+    }
+}
+
 /*
 fn main() -> anyhow::Result<()> {
     esp_idf_sys::link_patches();
@@ -208,3 +226,4 @@ fn main() -> anyhow::Result<()> {
 
     }
 */
+}

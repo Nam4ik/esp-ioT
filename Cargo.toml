@@ -5,23 +5,21 @@ edition = "2021"
 description = "Micro embedded-sys for esp32-iot"
 license = "CC0 1.0"
 
-#[dependencies]
-#esp-idf-sys = { version = "0.36", features = ["binstart"] }
-#esp-idf-hal = { version = "0.45", features = ["critical-section"] }
-#esp-idf-svc = { version = "0.51", default-features = false }
-
 [dependencies]
 esp-idf-sys = { version = "0.36.1", features = ["binstart"] }
-esp-idf-hal = "0.45.2"
+esp-idf-hal = { version = "0.45.1", features = ["critical-section"] }
 esp-idf-svc = "0.51"
-esp-wifi = "0.7" #{ version = "0.7", features = ["wifi"] }
-esp-wifi-sys = "0.7" #{ version = "0.7.0", features = ["wifi"] }
-serde = { version = "1.0", features = ["derive"] }
-heapless = { version = "0.8", features = ["serde"] }
+esp-wifi = { version = "0.7", features = ["esp32", "wifi"] }
+critical-section = { version = "1.2", features = ["restore-state-u32"] }
+nanoserde = "0.1.0" 
+heapless = "0.8" #{ version = "0.8", features = ["serde"] }
 postcard = { version = "1.0", features = ["heapless"] }
+embedded-io = "0.6"
+bmp280 = "0.1.2"
+#core_io = { version = "0.1", features = ["collections"] }
 
 [build]
-target = "xtensa-esp32-none-elf"
+target = "xtensa-esp32-espidf.json"
 
 [unstable]
 build-std = ["core", "compiler_builtins"]
@@ -29,7 +27,11 @@ build-std-features = ["compiler-builtins-mem"]
 
 [[bin]]
 name = "wifi"
-path = "src/wifi.rs"
+path = "src.min/main.rs"
+
+[features]
+default = ["std"]
+std = []
 
 #[env]
 #ESP_IDF_PATH = { value = "/path/to/esp-idf", relative = false }
