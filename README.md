@@ -12,6 +12,7 @@
 </a> 
 <img src="https://img.shields.io/badge/Version-v0.1-blue.svg">
 <a href="https://github.com/Nam4ik/esp-iot/blob/main/EN-README.md" target="_blank" rel="noopener noreferrer">
+  <br>
   <img src="https://img.shields.io/badge/README-English-blue?style=flat-square&logo=github" alt="English README">
 </a>
 </div>
