@@ -5,9 +5,9 @@
 <link to the source="https://github.com/Nam4ik/esp-iot/blob/main/README.md " target="_blank" rel="no access">
 <img src="https://img.shields.io/badge/README-RUSSIAN-blue ?style=flat square and logo=github" alt="Russian for reading">
 </a>
-divisions
 <br>
 </div>
+
 ## Description 
 
 **Esp-IoT** is a pet project that is an integrated system for esp32 on a computer (xtensa32).
