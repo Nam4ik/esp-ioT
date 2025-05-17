@@ -11,6 +11,9 @@
     <img src="https://github.com/Nam4ik/esp-iot/actions/workflows/rust.yml/badge.svg?event=push", alt="rust.yml">
 </a> 
 <img src="https://img.shields.io/badge/Version-v0.1-blue.svg">
+<a href="https://github.com/Nam4ik/esp-iot/blob/main/EN-README.md" target="_blank" rel="noopener noreferrer">
+  <img src="https://img.shields.io/badge/README-English-blue?style=flat-square&logo=github" alt="English README">
+</a>
 </div>
 <br>
 
