@@ -1,8 +1,12 @@
 <h1 align="center">  Esp-ioT 🗼 </h1>
 <div align = "center">
 <a href="https://t.me/ArcaneDevStudio" target="_blank" rel="noopener noreferrer">
-    <img src="https://img.shields.io/badge/Telegram-@ArcaneDevStudio-blue?style=flat-square&logo=telegram" alt="Telegram">
+    <img src="https://img.shields.io/badge/Telegram-Channel-blue?style=flat-square&logo=telegram" alt="Telegram">
 </a>
+<a href="https://t.me/Nam4iks" target="_blank" rel="noopener noreferrer">
+    <img src="https://img.shields.io/badge/Telegram-Contact-blue?style=flat-square&logo=telegram" alt="Telegram">
+</a>
+<br>
 <a href="https://github.com/Nam4ik/esp-ioT/actions", target="_blank", rel="noopener noreferrer">
     <img src="https://github.com/Nam4ik/esp-iot/actions/workflows/rust.yml/badge.svg?event=push", alt="rust.yml">
 </a> 
