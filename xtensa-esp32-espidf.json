@@ -2,14 +2,15 @@
   "arch": "xtensa",
   "cpu": "esp32",
   "data-layout": "e-m:e-p:32:32-i8:8:32-i16:16:32-i64:64-n32",
-  "emit-debug-gdb-scripts": false,
-  "env": "newlib",
   "executables": true,
+  "env": "newlib",
   "linker": "ldproxy",
   "llvm-target": "xtensa-none-elf",
   "max-atomic-width": 32,
-  "os": "none",
+  "panic-strategy": "abort",
   "target-family": "unix",
-  "target-pointer-width": "32",
-  "vendor": "espressif"
+  "vendor": "espressif",
+  "linker-flavor": "gcc",
+  "os": "none",
+  "emit-debug-gdb-scripts": false
 }

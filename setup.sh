@@ -1,8 +1,8 @@
 #!/bin/bash
 
-rustup toolchain install nightly
-rustup component add rust-src --toolchain nightly
-espup update 
+#rustup toolchain install nightly
+#rustup component add rust-src --toolchain nightly
+#espup update 
 
 export IDF_PATH=/opt/esp-idf
 source $IDF_PATH/export.sh
@@ -16,5 +16,5 @@ export IDF_TOOLS_PATH=~/.espressif
 cargo clean
 cargo update
 rustup run esp cargo build --target xtensa-esp32-espidf -Z build-std=core,compiler_builtins
-cargo +nightly build  -Z build-std=core,compiler_builtins --target xtensa-esp32-espidf 
+cargo +nightly build  -Z build-std=core,alloc,compiler_builtins --target xtensa-esp32-espidf.json 
 #cargo build

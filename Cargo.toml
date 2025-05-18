@@ -11,7 +11,15 @@ esp-idf-hal = "0.43"
 esp-wifi = "0.10"
 serde = { version = "1.0", features = ["derive"] }
 postcard = { version = "1.0", features = ["heapless"] }
+<<<<<<< HEAD
 log = "0.4"
+=======
+embedded-io = "0.6"
+bmp280 = "0.1.2"
+byteorder = { version = "1.5.0", default-features = false }
+anyhow = { version = "1.0", default-features = false }
+#core_io = { version = "0.1", features = ["collections"] }
+>>>>>>> 8f1078c (Copy)
 
 [build]
 target = "xtensa-esp32-espidf.json"
