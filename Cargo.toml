@@ -6,17 +6,12 @@ description = "Micro embedded-sys for esp32-iot"
 license = "CC0 1.0"
 
 [dependencies]
-esp-idf-sys = { version = "0.36.1", features = ["binstart"] }
-esp-idf-hal = { version = "0.45.1", features = ["critical-section"] }
-esp-idf-svc = "0.51"
-esp-wifi = { version = "0.7", features = ["esp32", "wifi"] }
-critical-section = { version = "1.2", features = ["restore-state-u32"] }
-nanoserde = "0.1.0" 
-heapless = "0.8" #{ version = "0.8", features = ["serde"] }
+esp-idf-svc = { version = "0.43", features = ["binstart"] }
+esp-idf-hal = "0.43"
+esp-wifi = "0.10"
+serde = { version = "1.0", features = ["derive"] }
 postcard = { version = "1.0", features = ["heapless"] }
-embedded-io = "0.6"
-bmp280 = "0.1.2"
-#core_io = { version = "0.1", features = ["collections"] }
+log = "0.4"
 
 [build]
 target = "xtensa-esp32-espidf.json"
