@@ -21,7 +21,7 @@ use server_init::wifi::{init_wifi, wifi_status, WifiConfig};
 use bmp280::BMP280;
 use bh1750::{BH1750, Resolution};
 
-#[derive(Serialize, Deserialize)]
+#[derive(SerJson, DeJson)]
 struct SensorData {
     voltage: f32,
     temperature: f32,
@@ -35,6 +35,7 @@ struct Sensors {
     i2c: I2cDriver<'static>,
     trig_pin: PinDriver<'static, AnyIOPin, Output>,
     echo_pin: PinDriver<'static, AnyIOPin, Input>,
+    relay_pin: PinDriver<'static, AnyIOPin, Output>,
 }
 
 impl Sensors {
@@ -51,6 +52,7 @@ impl Sensors {
 
         let trig_pin = PinDriver::output(peripherals.pins.gpio5.into())?;
         let echo_pin = PinDriver::input(peripherals.pins.gpio6.into())?;
+        let relay_pin = PinDriver::output(peripherals.pins.gpio4.into())?;
 
         Ok(Self {
             adc,
@@ -58,6 +60,7 @@ impl Sensors {
             i2c,
             trig_pin,
             echo_pin,
+            relay_pin,
         })
     }
 
@@ -128,8 +131,8 @@ fn main() -> ! {
             sensor_data.distance
         );
 
-       //TODO: sync with website and data sending
-
+       //TODO: Sync with website and data sending
+       //TODO: Website actions
         FreeRtos::delay_ms(1000);
     }
 }
