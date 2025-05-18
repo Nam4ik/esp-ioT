@@ -48,3 +48,18 @@ Dev branch
 <br>
 
 Поддерживаемые датчики - bh1750, hcsr04, bmp280
+
+## Сборка и прошивка
+Для сборки бинарника вам потребуется: 
+- Доступ в интернет
+- Root права или установленные зависисмости
+- Linux/BSD/WSL десктоп. Поддержка wsl эксперементальна.
+
+Сборка: 
+```shell
+git clone https://github.com/Nam4ik/esp-iot/
+cd esp-iot
+sudo pacman -S espup
+espup install
+./setup.sh
+```
