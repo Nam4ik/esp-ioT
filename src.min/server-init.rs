@@ -18,15 +18,83 @@ use esp_wifi::wifi::WiFiModem;
 use heapless::{String, Vec};
 use serde::{Deserialize, Serialize};
 
-#[derive(Deserialize, Serialize)]
+#[derive(Serialize, Deserialize)]
 pub struct WifiConfig {
     pub ssid: String<32>,
     pub password: String<64>,
 }
 
-pub struct Wifi {
-    inner: EspWifi<'static>,
+#[derive(Serialize, Deserialize)]
+pub struct Rule {
+    pub condition: String<20>,
+    pub threshold: f32,
+    pub action: String<20>,
 }
+
+static HTML_PAGE: &str = r#"
+<!DOCTYPE html>
+<html>
+<head>
+    <title>ESP32 Control</title>
+    <script>
+        async function saveConfig() {
+            const ssid = document.getElementById('ssid').value;
+            const password = document.getElementById('password').value;
+            
+            await fetch('/config', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: `ssid=${encodeURIComponent(ssid)}&password=${encodeURIComponent(password)}`
+            });
+            alert('Config saved! Rebooting...');
+        }
+
+        async function addRule() {
+            const condition = document.getElementById('condition').value;
+            const threshold = document.getElementById('threshold').value;
+            const action = document.getElementById('action').value;
+            
+            await fetch('/rules', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    condition,
+                    threshold: parseFloat(threshold),
+                    action
+                })
+            });
+            alert('Rule added!');
+        }
+    </script>
+</head>
+<body>
+    <h1>WiFi Configuration</h1>
+    <div>
+        <input type="text" id="ssid" placeholder="SSID">
+        <input type="password" id="password" placeholder="Password">
+        <button onclick="saveConfig()">Save WiFi</button>
+    </div>
+
+    <h2>Add Rule</h2>
+    <div>
+        <select id="condition">
+            <option value="light_high">Light High</option>
+            <option value="light_low">Light Low</option>
+        </select>
+        <input type="number" id="threshold" step="0.1" placeholder="Threshold">
+        <select id="action">
+            <option value="relay_off">Turn Off Relay</option>
+            <option value="relay_on">Turn On Relay</option>
+        </select>
+        <button onclick="addRule()">Add Rule</button>
+    </div>
+</body>
+</html>
+"#;
 
 impl Wifi {
     pub fn init(modem: WiFiModem, config: Option<WifiConfig>) -> Result<Self, esp_wifi::Error> {
