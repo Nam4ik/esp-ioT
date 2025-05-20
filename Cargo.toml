@@ -6,7 +6,7 @@ description = "Micro embedded-sys for esp32-iot"
 license = "CC0 1.0"
 
 [dependencies]
-esp-idf-hal = "0.35.0"  
+esp-idf-hal = "0.35.0"   
 esp-wifi = "0.6.0"
 serde = { version = "1.0", features = ["derive"] } 
 serde_json = "1.0"       
