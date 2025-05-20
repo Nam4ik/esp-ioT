@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>ESP32 Sensor Monitor</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>ESP32 Sensor Monitor</h1>
+        
+        <div class="card">
+            <span>Voltage:</span>
+            <div id="voltage">-- V</div>
+        </div>
+        
+        <div class="card">
+            <span>Temperature:</span>
+            <div id="temperature">-- °C</div>
+        </div>
+        
+        <div class="card">
+            <span>Light:</span>
+            <div id="light">-- lux</div>
+        </div>
+        
+        <div class="card">
+            <span>Distance:</span>
+            <div id="distance">-- cm</div>
+        </div>
+        
+        <div id="lastUpdate"></div>
+        
+        <div id="status"></div>
+        
+        <div class="config">
+            <h2>WiFi Setup</h2>
+            <input id="ssid" placeholder="WiFi Name">
+            <input id="password" type="password" placeholder="Password">
+            <button onclick="saveConfig()">Save</button>
+            
+            <h3>Automation Rule</h3>
+            <select id="condition">
+                <option value="light_high">Light High</option>
+                <option value="light_low">Light Low</option>
+                <option value="temp_high">Temp High</option>
+                <option value="temp_low">Temp Low</option>
+            </select>
+            <input id="threshold" type="number" placeholder="Value">
+            <select id="action">
+                <option value="relay_off">Relay Off</option>
+                <option value="relay_on">Relay On</option>
+            </select>
+            <button onclick="addRule()">Add</button>
+        </div>
+    </div>
+    <script>
+        let updateInterval = null;
+
+        async function fetchData() {
+            try {
+                const response = await fetch('/api/data');
+                if (!response.ok) throw new Error();
+                const data = await response.json();
+                updateUI(data);
+            } catch {
+                showStatus('error', 'Connection error');
+            }
+        }
+
+        function updateUI(data) {
+            document.getElementById('voltage').textContent = data.voltage.toFixed(2) + ' V';
+            document.getElementById('temperature').textContent = data.temperature.toFixed(1) + ' °C';
+            document.getElementById('light').textContent = Math.round(data.light) + ' lux';
+            document.getElementById('distance').textContent = data.distance.toFixed(1) + ' cm';
+            document.getElementById('lastUpdate').textContent = 'Last: ' + new Date().toLocaleTimeString();
+            showStatus('', '');
+        }
+
+        async function saveConfig() {
+            const ssid = document.getElementById('ssid').value.trim();
+            const password = document.getElementById('password').value.trim();
+            
+            if (!ssid || !password) return alert('Fill all fields');
+            
+            try {
+                const response = await fetch('/api/config', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({ssid, password})
+                });
+                
+                if (!response.ok) throw new Error();
+                showStatus('success', 'Saved! Restarting...');
+                clearInterval(updateInterval);
+            } catch {
+                showStatus('error', 'Save failed');
+            }
+        }
+
+        async function addRule() {
+            const condition = document.getElementById('condition').value;
+            const threshold = parseFloat(document.getElementById('threshold').value);
+            const action = document.getElementById('action').value;
+            
+            if (!condition || isNaN(threshold) || !action) return alert('Invalid input');
+            
+            try {
+                const response = await fetch('/api/rules', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({condition, threshold, action})
+                });
+                
+                if (!response.ok) throw new Error();
+                showStatus('success', 'Rule added!');
+            } catch {
+                showStatus('error', 'Rule error');
+            }
+        }
+
+        function showStatus(type, msg) {
+            const status = document.getElementById('status');
+            status.className = `status ${type}`;
+            status.textContent = msg;
+        }
+
+        window.onload = () => {
+            fetchData();
+            updateInterval = setInterval(fetchData, 5000);
+        };
+    </script>
+</body>
+</html>
