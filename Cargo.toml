@@ -5,18 +5,10 @@ edition = "2021"
 description = "Micro embedded-sys for esp32-iot"
 license = "CC0 1.0"
 
-#[dependencies]
-#esp-idf-svc = "0.43.5"
-#esp-idf-hal = "0.39.3"
-#esp-wifi = "0.10"        
-#embedded-hal = "1.0.0"  
-#serde = { version = "1.0", features = ["derive"] }
-#postcard = { version = "1.0", features = ["heapless"] }
-#log = "0.4"
 [dependencies]
-esp-idf-hal = "0.35.0"   # HAL для работы с железом
+esp-idf-hal = "0.35.0"  
 esp-wifi = "0.6.0"
-serde = { version = "1.0", features = ["derive"] } # Для сериализации данных
+serde = { version = "1.0", features = ["derive"] } 
 serde_json = "1.0"       
 embassy-executor = "0.7.0" 
 embassy-sync = "0.6.2"   
@@ -27,11 +19,6 @@ embedded-svc = "0.23"
 [unstable]
 build-std = ["core", "compiler_builtins"]
 build-std-features = ["compiler-builtins-mem"]
-
-
-[[bin]]
-name = "wifi"
-path = "src.min/main.rs"
 
 [features]
 default = ["std"]
