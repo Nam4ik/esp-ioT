@@ -1,5 +1,31 @@
 #!/bin/bash
 
+if [[ "$1" == "-nointeractive" ]]; then
+    if [ ! -f "conf.env" ]; then
+        echo "Ошибка: файл conf.env не найден."
+        exit 1
+    fi
+    source conf.env
+    case "$build_vendor" in
+        "esp") METHOD=1 ;;
+        "cargo-espdif") METHOD=2 ;;
+        "cargo-none-elf") METHOD=3 ;;
+        *)
+            echo "Ошибка: неверное значение build_vendor в conf.env"
+            exit 1
+            ;;
+    esac
+else
+
+echo "Choose build method:"
+echo "1) Build by espup (espup package must be installed. )"
+echo "2) Build by LLVM target - `xtensa-esp32-espidf.json`"
+echo "3) Build by LLCM target - `xtensa-esp32-none-elf.json`"
+echo "WARNING: Use second and third variations only if you cant get espup, build can broke or usupported target or targets conflict error."
+read -p "Enter a number (1/3): " METHOD
+
+fi
+
 build_with_esp() {
 
     if ! command -v espup &> /dev/null; then
@@ -38,13 +64,6 @@ build_with_cargo_elf(){
     cargo update
     cargo +nightly build -Z build-std=core,alloc,compiler_builtins --target xtensa-esp32-none-elf.json --release
 }
-
-echo "Choose build method:"
-echo "1) Build by espup (espup package must be installed. )"
-echo "2) Build by LLVM target - `xtensa-esp32-espidf.json`"
-echo "3) Build by LLCM target - `xtensa-esp32-none-elf.json`"
-echo "WARNING: Use second and third variations only if you cant get espup, build can broke or usupported target or targets conflict error.
-read -p "Enter a number (1/3): " METHOD
 
 case $METHOD in
     1)
