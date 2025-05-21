@@ -20,7 +20,8 @@ build_with_esp() {
     echo "Building by espup..."
     cargo clean
     cargo update
-    rustup run esp cargo build --target xtensa-esp32-espidf -Z build-std=core,compiler_builtins
+    rustup run esp cargo build -Z build-std=core,alloc,compiler_builtins --release
+   # --target xtensa-esp32-espidf
 }
 
 
@@ -28,14 +29,14 @@ build_with_cargo() {
     echo "Building by cargo LLVM target... xtensa-esp32-espidf"
     cargo clean
     cargo update
-    cargo +nightly build -Z build-std=core,alloc,compiler_builtins --target xtensa-esp32-espidf.json
+    cargo +nightly build -Z build-std=core,alloc,compiler_builtins --target xtensa-esp32-espidf.json --release
 }
 
 build_with_cargo_elf(){
     echo "Building by cargo LLVM target... xtensa-esp32-none-elf"
     cargo clean
     cargo update
-    cargo +nightly build -Z build-std=core,alloc,compiler_builtins --target xtensa-esp32-none-elf.json
+    cargo +nightly build -Z build-std=core,alloc,compiler_builtins --target xtensa-esp32-none-elf.json --release
 }
 
 echo "Choose build method:"
