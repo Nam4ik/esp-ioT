@@ -24,3 +24,4 @@ src.main/
 src.dev/
 esp-wifi/
 forschool/
+.embuild/
