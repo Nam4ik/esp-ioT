@@ -18,6 +18,9 @@
 </div>
 <br>
 
+> [!WARNING]
+> Programming is more of a hobby than a job, and there may be downtime in development.
+
 ## Описание 
 
 > [!NOTE]
@@ -66,3 +69,4 @@ sudo pacman -S espup
 espup install
 ./setup.sh
 ```
+
