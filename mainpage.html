@@ -93,7 +93,7 @@
                 if (!response.ok) throw new Error();
                 showStatus('success', 'Saved! Restarting...');
                 clearInterval(updateInterval);
-            } catch {
+            } catch (e) {
                 showStatus('error', 'Save failed');
             }
         }

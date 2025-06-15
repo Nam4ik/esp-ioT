@@ -20,16 +20,11 @@ use server_init::wifi::{init_wifi, wifi_status, WifiConfig};
 mod fs;
 use fs::mount_fs; 
 
+mod shared; 
+use shared::{SharedState, SensorData, Rule}; 
+
 use bmp280::BMP280;
 use bh1750::{BH1750, Resolution};
-
-#[derive(SerJson, DeJson)]
-struct SensorData {
-    voltage: f32,
-    temperature: f32,
-    light: f32,
-    distance: f32,
-}
 
 struct Sensors {
     adc: AdcDriver<'static, ADC1>,
@@ -110,9 +105,25 @@ fn main() -> ! {
     let mut nvs = server_init::init_nvs();
     let wifi_config = server_init::load_config(&mut nvs);
     let wifi = init_wifi(peripherals.modem, wifi_config).unwrap();
-    
+   
+    let shared_data = Arc::new(Mutex::new(SharedState {
+        sensor_data: SensorData {
+            voltage: 0.0,
+            temperature: 0.0,
+            light: 0.0,
+            distance: 0.0,
+        },
+        rules: Vec::new(),
+        relay_state: false,
+    }));
+
+    let shared_state = Mutex::new(SharedState {
+        sensor_data: SensorData::default(),
+        rules: Vec::new(),
+    });
+
     let mut server = if wifi.is_ap() {
-        Some(server_init::start_webserver().unwrap())
+        Some(server_init::start_webserver(&shared_state).unwrap())
     } else {
         None
     };
@@ -124,6 +135,28 @@ fn main() -> ! {
             light: sensors.read_light().unwrap(),
             distance: sensors.read_distance().unwrap(),
         };
+
+         let mut shared = shared_state.lock().unwrap();
+         shared.sensor_data = sensor_data.clone();
+            
+         let relay_state = server_init::apply_rules(&sensor_data);
+         server_init::RELAY_STATE.store(relay_state, Ordering::SeqCst);
+       
+          
+
+        //TODO: Довести до ума правила
+        /*
+            for rule in &shared.rules {
+                
+            }
+
+         */
+            if relay_state {
+                sensors.relay_pin.set_high().unwrap();
+            } else {
+                sensors.relay_pin.set_low().unwrap();
+            }
+        }            
 
         log::info!(
             "Voltage: {:.2}V, Temp: {:.1}C, Light: {:.0}lux, Distance: {:.1}cm",
