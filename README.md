@@ -73,5 +73,5 @@ espup install
 
 А лучше 
 ```
-rustup run esp -Z build-std=core,alloc,compiler-builtins --target xtesnsa-esp32-espidf --release
+rustup run esp cargo build -Z build-std=core,alloc,compiler-builtins --target xtesnsa-esp32-espidf --release
 ```
