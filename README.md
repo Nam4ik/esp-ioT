@@ -20,6 +20,7 @@
 
 > [!WARNING]
 > Programming is more of a hobby than a job, and there may be downtime in development.
+> Сейчас я вернулся к проекту, предстоит еще тонна работы по очистке и оптимизации.... 
 
 ## Описание 
 
@@ -70,3 +71,7 @@ espup install
 ./setup.sh
 ```
 
+А лучше 
+```
+rustup run esp -Z build-std=core,alloc,compiler-builtins --target xtesnsa-esp32-espidf --release
+```
